@@ -6,13 +6,14 @@
         <style>
             body {
                 font-size: 140%;
+                overflow: scroll;
             }
             .container {
                 display: grid;
                 grid-template-columns: 50% 50%;
             }
             .item {
-                padding: 4%;
+                padding: 2%;
             }
             .item1 {
                 background-color: lightblue;
@@ -29,7 +30,7 @@
                 color: white;
                 grid-column: 1 / span 2;
             }
-            #buy {
+            #buy li {
                 display: none;
             }
         </style>
@@ -40,21 +41,21 @@
                 a.style.display = "none";
                 b.style.display = "block";
                 let sum = document.getElementById("sum");
-                sum += parseInt(value);
+                sum.value = parseInt(sum.value) + parseInt(value);
             }
             function remove(id1, id2, value) {
                 let a = document.getElementById(id1), b = document.getElementById(id2);
                 a.style.display = "block";
                 b.style.display = "none";
                 let sum = document.getElementById("sum");
-                sum -= parseInt(value);
+                sum.value = parseInt(sum.value) - parseInt(value);
             }
             function tender() {
-                let sum = parseInt(document.getElementById("sum")), cash = parseInt(document.getElementById("cash"));
+                let sum = parseInt(document.getElementById("sum").value), cash = parseInt(document.getElementById("cash").value);
                 if (cash < sum) {
                     alert("Insufficient cash!");
                 } else {
-                    alert("Change is: " + sum - cash);
+                    alert("Change is: " + (sum - cash));
                 }
             }
         </script>
@@ -148,13 +149,13 @@
                         Product09 - $39<br />
                         <button onclick="remove('list9', 'buy9', 39)">Remove</button>
                     </li>
-                    <li id="list10">
+                    <li id="buy10">
                         Product10 - $28<br />
                         <button onclick="remove('list10', 'buy10', 28)">Remove</button>
                     </li>
                 </ol>
-                <p>Sum: <input type="text" id="sum" value=0 disabled></p>
-                <p>Cash: <input type="number" id="cash" value="0" onclick="this.select()"></p>
+                <p>Sum: <input type="text" id="sum" value="0" disabled></p>
+                <p>Cash: <input type="number" id="cash" onclick="this.select()"></p>
                 <button onclick="tender()">Tender</button>
             </div>
             <div class="item item4">
