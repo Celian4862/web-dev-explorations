@@ -3,79 +3,8 @@
     <head>
         <title>Grocery store</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            body {
-                font-size: 140%;
-            }
-            .container {
-                display: grid;
-                grid-template-columns: 50% 50%;
-            }
-            .item {
-                padding: 2%;
-            }
-            .item1 {
-                background-color: lightblue;
-                grid-column: 1 / span 2;
-            }
-            .item2 {
-                background-color: lightgray;
-            }
-            .item3 {
-                background-color: lightcyan;
-            }
-            .item4 {
-                background-color: blue;
-                color: white;
-                grid-column: 1 / span 2;
-            }
-            .hidden {
-                display: none;
-            }
-            #message {
-                color: red;
-            }
-        </style>
-        <script async="false">
-            let sum = 0;
-            function add(id1, id2, value) {
-                let a = document.getElementById(id1);
-                let b = document.getElementById(id2);
-                a.classList.add('hidden');
-                b.classList.remove('hidden');
-                sum += parseInt(value);
-                document.getElementById("sum").value = sum;
-                document.getElementById("message").innerHTML = "";
-            }
-            function remove(id1, id2, value) {
-                let a = document.getElementById(id1), b = document.getElementById(id2);
-                a.classList.remove('hidden');
-                b.classList.add('hidden');
-                sum -= parseInt(value);
-                document.getElementById("sum").value = sum;
-                document.getElementById("message").innerHTML = "";
-            }
-            function tender() {
-                let cash = parseInt(document.getElementById("cash").value), buyList = document.getElementById("buy"), buyItems = buyList.getElementsByTagName("li"), buyItemsHidden = buyList.getElementsByClassName("hidden");
-                for (let i = 0; i < buyItems.length; i++) {
-                    console.log(buyItems[i].innerHTML);
-                }
-                if (buyItems.length - buyItemsHidden.length == 0) {
-                    document.getElementById("message").innerHTML = "Please add a product.";
-                } else if (isNaN(cash)) {
-                    alert("Please enter how much money you're giving.");
-                } else if (cash < sum) {
-                    alert("Insufficient cash!");
-                } else {
-                    alert("Change is: " + (cash - sum));
-                    while (buyItems.length > 0) {
-                        buyItems[0].remove();
-                    }
-                    document.getElementById("sum").value = "0";
-                    document.getElementById("cash").value = "0";    
-                }
-            }
-        </script>
+        <link rel="stylesheet" href="midterm exam.css">
+        <script src="midterm exam.js" async="false"></script>
     </head>
     <body>
         <div class="container">
@@ -172,8 +101,9 @@
                     </li>
                 </ol>
                 <p>Sum: <input type="text" id="sum" value="0" disabled></p>
-                <p>Cash: <input type="number" id="cash" onclick="this.select()"></p>
-                <p id="message"></p>
+                <p>Cash: <input type="number" id="cash" value="0" onclick="this.select()"></p>
+                <p id="error"></p>
+                <p id="change"></p>
                 <button onclick="tender()">Tender</button>
             </div>
             <div class="item item4">

@@ -1,0 +1,31 @@
+body {
+    font-size: 140%;
+}
+.container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+.item {
+    padding: 2%;
+}
+.item1 {
+    background-color: lightblue;
+    grid-column: 1 / span 2;
+}
+.item2 {
+    background-color: lightgray;
+}
+.item3 {
+    background-color: lightcyan;
+}
+.item4 {
+    background-color: blue;
+    color: white;
+    grid-column: 1 / span 2;
+}
+.hidden {
+    display: none;
+}
+#error {
+    color: red;
+}
