@@ -6,7 +6,6 @@
         <style>
             body {
                 font-size: 140%;
-                overflow: scroll;
             }
             .container {
                 display: grid;
@@ -30,32 +29,50 @@
                 color: white;
                 grid-column: 1 / span 2;
             }
-            #buy li {
+            .hidden {
                 display: none;
+            }
+            #message {
+                color: red;
             }
         </style>
         <script async="false">
+            let sum = 0;
             function add(id1, id2, value) {
-                let a = document.getElementById(id1)
+                let a = document.getElementById(id1);
                 let b = document.getElementById(id2);
-                a.style.display = "none";
-                b.style.display = "block";
-                let sum = document.getElementById("sum");
-                sum.value = parseInt(sum.value) + parseInt(value);
+                a.classList.add('hidden');
+                b.classList.remove('hidden');
+                sum += parseInt(value);
+                document.getElementById("sum").value = sum;
+                document.getElementById("message").innerHTML = "";
             }
             function remove(id1, id2, value) {
                 let a = document.getElementById(id1), b = document.getElementById(id2);
-                a.style.display = "block";
-                b.style.display = "none";
-                let sum = document.getElementById("sum");
-                sum.value = parseInt(sum.value) - parseInt(value);
+                a.classList.remove('hidden');
+                b.classList.add('hidden');
+                sum -= parseInt(value);
+                document.getElementById("sum").value = sum;
+                document.getElementById("message").innerHTML = "";
             }
             function tender() {
-                let sum = parseInt(document.getElementById("sum").value), cash = parseInt(document.getElementById("cash").value);
-                if (cash < sum) {
+                let cash = parseInt(document.getElementById("cash").value), buyList = document.getElementById("buy"), buyItems = buyList.getElementsByTagName("li"), buyItemsHidden = buyList.getElementsByClassName("hidden");
+                for (let i = 0; i < buyItems.length; i++) {
+                    console.log(buyItems[i].innerHTML);
+                }
+                if (buyItems.length - buyItemsHidden.length == 0) {
+                    document.getElementById("message").innerHTML = "Please add a product.";
+                } else if (isNaN(cash)) {
+                    alert("Please enter how much money you're giving.");
+                } else if (cash < sum) {
                     alert("Insufficient cash!");
                 } else {
-                    alert("Change is: " + (sum - cash));
+                    alert("Change is: " + (cash - sum));
+                    while (buyItems.length > 0) {
+                        buyItems[0].remove();
+                    }
+                    document.getElementById("sum").value = "0";
+                    document.getElementById("cash").value = "0";    
                 }
             }
         </script>
@@ -113,49 +130,50 @@
             <div class="item item3">
                 <h3>Products</h3>
                 <ol id="buy">
-                    <li id="buy1">
+                    <li class="hidden" id="buy1">
                         Product01 - $51<br />
                         <button onclick="remove('list1', 'buy1', 51)">Remove</button>
                     </li>
-                    <li id="buy2">
+                    <li class="hidden" id="buy2">
                         Product02 - $22<br />
                         <button onclick="remove('list2', 'buy2', 22)">Remove</button>
                     </li>
-                    <li id="buy3">
+                    <li class="hidden" id="buy3">
                         Product03 - $18<br />
                         <button onclick="remove('list3', 'buy3', 18)">Remove</button>
                     </li>
-                    <li id="buy4">
+                    <li class="hidden" id="buy4">
                         Product04 - $59<br />
                         <button onclick="remove('list4', 'buy4', 59)">Remove</button>
                     </li>
-                    <li id="buy5">
+                    <li class="hidden" id="buy5">
                         Product05 - $35<br />
                         <button onclick="remove('list5', 'buy5', 35)">Remove</button>
                     </li>
-                    <li id="buy6">
+                    <li class="hidden" id="buy6">
                         Product06 - $43<br />
                         <button onclick="remove('list6', 'buy6', 43)">Remove</button>
                     </li>
-                    <li id="buy7">
+                    <li class="hidden" id="buy7">
                         Product07 - $35<br />
                         <button onclick="remove('list7', 'buy7', 35)">Remove</button>
                     </li>
-                    <li id="buy8">
+                    <li class="hidden" id="buy8">
                         Product08 - $87<br />
                         <button onclick="remove('list8', 'buy8', 87)">Remove</button>
                     </li>
-                    <li id="buy9">
+                    <li class="hidden" id="buy9">
                         Product09 - $39<br />
                         <button onclick="remove('list9', 'buy9', 39)">Remove</button>
                     </li>
-                    <li id="buy10">
+                    <li class="hidden" id="buy10">
                         Product10 - $28<br />
                         <button onclick="remove('list10', 'buy10', 28)">Remove</button>
                     </li>
                 </ol>
                 <p>Sum: <input type="text" id="sum" value="0" disabled></p>
                 <p>Cash: <input type="number" id="cash" onclick="this.select()"></p>
+                <p id="message"></p>
                 <button onclick="tender()">Tender</button>
             </div>
             <div class="item item4">
