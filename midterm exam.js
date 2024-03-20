@@ -35,15 +35,17 @@ function tender() {
         error.innerHTML = "";
         change.innerHTML = "Change is: " + (cash - sum);
         let i = 0;
-        while (buyItems.length > 0) {
+        while (buyItems.length > 0 && i < buyItems.length) {
+            console.log(buyItems[i].innerHTML);
+            console.log(i);
             if (!(buyItems[i].classList.contains("hidden"))) {
                 buyItems[i].remove();
             } else {
                 i++;
             }
         }
-        document.getElementById("sum").value = 0;
         sum = 0;
-        document.getElementById("cash").value = 0;    
+        document.getElementById("sum").value = sum;
+        document.getElementById("cash").value = sum;    
     }
 }
