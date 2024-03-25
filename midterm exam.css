@@ -1,5 +1,6 @@
 body {
     font-size: 140%;
+    margin: 0;
 }
 .container {
     display: grid;
