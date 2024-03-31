@@ -1,0 +1,50 @@
+body {
+ background-color: #141516;
+ color: white;
+ font-family: Arial, sans-serif;
+ margin: 20px;
+ padding: 20px;
+}
+
+h1 {
+ font-family: "Arial Black", sans-serif;
+}
+
+p {
+ font-size: 25px;
+}
+
+.container {
+ display: flex;
+ border: 1px solid yellow;
+ margin: 10px;
+ flex-wrap: wrap;
+}
+
+.item {
+ border: 2px solid green;
+ padding: 10px;
+ margin: 7px;
+ flex: auto;
+ text-align: center;
+}
+
+a {
+ color: white;
+ text-decoration: none;
+}
+
+button {
+ background-color: #25C2DA;
+ color: white;
+ padding: 4.7px 7px 4.7px 7px;
+}
+
+#flex-btn {
+ font-size: 18px;
+ font-family: "Franklin Gothic Medium", sans-serif;
+ background-color: #1F00FF;
+ color: white;
+ margin: 16px;
+ padding: 10px;
+}

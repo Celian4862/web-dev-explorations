@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 25px 25px 25px 25px;
+     font-size: 25px;
+}
+
+.dark-mode {
+    background-color: black;
+    color: white;
+    margin: 25px 25px 25px 25px;
+}
+
+button {
+    font-size: 25px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 270px 420px;
+    grid-template-rows: 200px 420px 200px;
+}
+
+.item {
+    border: solid 5px pink;
+    padding: 10px;
+    margin: 4px;
+}
+
+.item-h {
+    grid-column: span 4;
+    grid-row: span 1;
+}
+
+.item-n {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+ 
+.item-m {
+    grid-column: span 3;
+    grid-row: span 2;
+}
+
+.item-f {
+    grid-column: span 4;
+    grid-row: span 1;
+    text-align: center;
+}
+
+a {
+    color: magenta;
+}
+
+#bottom {
+    top: 29px;
+}
