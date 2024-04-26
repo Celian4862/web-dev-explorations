@@ -1,3 +1,12 @@
 body {
     padding: 1%;
 }
+
+table {
+    border: 2px solid black;
+    padding: 3%;
+}
+
+th, td {
+    padding: 2%;
+}
