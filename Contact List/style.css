@@ -2,6 +2,14 @@ table, th, td {
     border: 2px solid black;
 }
 
-td {
+.center {
+    margin: 0 auto;
+}
+
+.collapse {
+    border-collapse: collapse;
+}
+
+th, td {
     padding: 20px;
 }
