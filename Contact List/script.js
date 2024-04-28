@@ -1,10 +1,10 @@
-function reveal(a, b, c) {
+function reveal() {
     document.getElementById('addContact').classList.remove("hidden");
     document.getElementById('cancel').classList.remove("hidden");
     document.getElementById('addButton').classList.add("hidden");
 }
 
-function hide(a, b, c) {
+function hide() {
     document.getElementById('addContact').classList.add("hidden");
     document.getElementById('cancel').classList.add("hidden");
     document.getElementById('addButton').classList.remove("hidden");
