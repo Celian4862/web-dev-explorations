@@ -27,8 +27,8 @@
             ";
             $sql = "CREATE TABLE IF NOT EXISTS contact_list (
                 id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                firstname VARCHAR(30) NOT NULL,
-                lastname VARCHAR(30) NOT NULL,
+                firstname VARCHAR(30),
+                lastname VARCHAR(30),
                 email VARCHAR(50),
                 contact VARCHAR(11)
                 -- reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -44,6 +44,15 @@
                 $lastName = test_input($_POST["lastName"]);
                 $email = test_input($_POST["email"]);
                 $contact = test_input($_POST["contact"]);
+
+                $firstName = empty($firstName) ? NULL : $firstName;
+                $lastName = empty($lastName) ? NULL : $lastName;
+                $email = empty($email) ? NULL : $email;
+                $contact = empty($contact) ? NULL : $contact;
+
+                // Will need to add functionality to check if ID already exists
+                // Will also need to find out how to prevent the form from closing if the ID is invalid
+
                 $stmt = $conn->prepare("INSERT INTO contact_list (id, firstname, lastname, email, contact) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param("issss", $id, $firstName, $lastName, $email, $contact);
                 if ($stmt->execute()) {
@@ -103,6 +112,7 @@
                 <th>Email Address</th>
                 <th>Contact Number</th>
             </tr>
+            <!-- Need to figure out how to display the contents of the database -->
         </table>
     </body>
 </html>

@@ -37,14 +37,14 @@ function validateName() {
         firstNameError.textContent = "Both names cannot be empty at the same time.";
         lastNameError.textContent = "Both names cannot be empty at the same time.";
     } else {
-        if (!namePattern.test(firstName)) {
+        if (firstName.length > 0 && !namePattern.test(firstName)) {
             firstNameError.textContent = "Name must only contain letters.";
         } else if (firstName.length > 30) {
             firstNameError.textContent = "Name must be within 30 characters long.";
         } else {
             firstNameError.textContent = "";
         }
-        if (!namePattern.test(lastName)) {
+        if (lastName.length > 0 && !namePattern.test(lastName)) {
             lastNameError.textContent = "Name must only contain letters.";
         } else if (lastName.length > 30) {
             lastNameError.textContent = "Name must be within 30 characters long.";
@@ -54,13 +54,27 @@ function validateName() {
     }
 }
 
+function validateEmail() {
+    var email = document.getElementById('email').value;
+    var emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z.]+\.[a-zA-Z]{2,6}$/;
+    var emailError = document.getElementById('emailError');
+
+    if (email.length > 0 && !emailPattern.test(email)) {
+        emailError.textContent = "Invalid email format.";
+    } else if (email.length > 50) {
+        emailError.textContent = "Email must be within 50 characters.";
+    } else {
+        emailError.textContent = "";
+    }
+}
+
 function validateContact() {
     var contact = document.getElementById('contact').value;
     var contactError = document.getElementById('contactError');
 
     if (isNaN(contact)) {
         contactError.textContent = "Contact number must only contain numbers.";
-    } else if (contact.length != 11) {
+    } else if (contact.length > 0 && contact.length != 11) {
         contactError.textContent = "Contact number must be 11 digits long.";
     } else {
         contactError.textContent = "";
@@ -71,8 +85,9 @@ function validateForm() {
     var id = document.getElementById('identity').value, idError = document.getElementById('idError');
     var firstName = document.getElementById('firstName').value, firstNameError = document.getElementById('firstNameError');
     var lastName = document.getElementById('lastName').value, lastNameError = document.getElementById('lastNameError');
+    var namePattern = /^[a-zA-Z ]+$/;
     var email = document.getElementById('email').value;
-    var emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z]+\.[a-zA-Z]{2,6}$/;
+    var emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z.]+\.[a-zA-Z]{2,6}$/;
     var contact = document.getElementById('contact').value, contactError = document.getElementById('contactError');
 
     // Validates ID
@@ -90,18 +105,51 @@ function validateForm() {
     }
 
     // Validates names
-    if ((firstName.length == 0 || firstName.length > 30) && (lastName.length == 0 || lastName.length > 30)) {
+    if (firstName.length == 0 && lastName.length == 0) {
+        firstNameError.textContent = "Both names cannot be empty at the same time.";
+        lastNameError.textContent = "Both names cannot be empty at the same time.";
         return false;
+    } else {
+        if (firstName.length > 0 && !namePattern.test(firstName)) {
+            firstNameError.textContent = "Name must only contain letters.";
+            return false;
+        } else if (firstName.length > 30) {
+            firstNameError.textContent = "Name must be within 30 characters long.";
+            return false;
+        } else {
+            firstNameError.textContent = "";
+        }
+        if (lastName.length > 0 && !namePattern.test(lastName)) {
+            lastNameError.textContent = "Name must only contain letters.";
+            return false;
+        } else if (lastName.length > 30) {
+            lastNameError.textContent = "Name must be within 30 characters long.";
+            return false;
+        } else {
+            lastNameError.textContent = "";
+        }
     }
 
     // Validates email
-    if (email.length > 50 || (email.length > 0 && !emailPattern.test(email))) {
+    if (email.length > 0 && !emailPattern.test(email)) {
+        emailError.textContent = "Invalid email format.";
         return false;
+    } else if (email.length > 50) {
+        emailError.textContent = "Email must be within 50 characters.";
+        return false;
+    } else {
+        emailError.textContent = "";
     }
 
     // Validates contact
-    if (contact.length != 11 || isNaN(contact)) {
+    if (isNaN(contact)) {
+        contactError.textContent = "Contact number must only contain numbers.";
         return false;
+    } else if (contact.length > 0 && contact.length != 11) {
+        contactError.textContent = "Contact number must be 11 digits long.";
+        return false;
+    } else {
+        contactError.textContent = "";
     }
 
     return true;
