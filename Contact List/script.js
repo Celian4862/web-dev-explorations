@@ -166,12 +166,19 @@ function validateForm() {
     }
 
     // Validates contact
-    if (!contactPattern.test(contact) || isNaN(contact)) {
-        contactError.textContent = "Contact number must contain only numbers.";
-        valid = false;
-    } else if (contact.length > 0 && contact.length != 11) {
-        contactError.textContent = "Contact number must be 11 digits long.";
-        valid = false;
+    /* Variables:
+    contact = document.getElementById('contact').value
+    contactPattern = /^[0-9]+$/
+    contactError = document.getElementById('contactError')
+    */
+    if (contact.length > 0) {
+        if (!contactPattern.test(contact)) {
+            contactError.textContent = "Contact number must contain only numbers.";
+            valid = false;
+        } else if (contact.length != 11) {
+            contactError.textContent = "Contact number must be 11 digits long.";
+            valid = false;
+        }
     } else {
         contactError.textContent = "";
     }
