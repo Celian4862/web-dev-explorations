@@ -14,8 +14,8 @@
                 $data = htmlspecialchars($data);
                 return $data;
             }
-
-            $idError = $nameError = $contactError = "";
+            // Maybe need this for PHP errors, especially for ID checking
+            // $idError = $nameError = $contactError = "";
             $conn = mysqli_connect("localhost", "root", "", "test");
             if (!$conn) {
                 die("Connection failed.<br />". mysqli_connect_error());
