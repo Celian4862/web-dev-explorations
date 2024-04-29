@@ -20,7 +20,7 @@ function validateId() {
     } else if (isNaN(id)) {
         errorSpan.textContent = "ID must be a number";
     } else if (id.length != 8) {
-        errorSpan.textContent = "ID must be at least 8 characters long";
+        errorSpan.textContent = "ID must be at least 8 digits long";
     } else {
         errorSpan.textContent = "";
     }
