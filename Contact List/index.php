@@ -19,8 +19,6 @@
                 $data = htmlspecialchars($data);
                 return $data;
             }
-            // Maybe need this for PHP errors, especially for ID checking
-            // $idError = $nameError = $contactError = "";
             $conn = mysqli_connect("localhost", "root", "", "test");
             if (!$conn) {
                 die("Connection failed.<br />". mysqli_connect_error());
@@ -54,9 +52,6 @@
                 $lastName = empty($lastName) ? NULL : $lastName;
                 $email = empty($email) ? NULL : $email;
                 $contact = empty($contact) ? NULL : $contact;
-
-                // Will need to add functionality to check if ID already exists
-                // Will also need to find out how to prevent the form from closing if the ID is invalid
 
                 $stmt = $conn->prepare("INSERT INTO contact_list (id, firstname, lastname, email, contact) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param("issss", $id, $firstName, $lastName, $email, $contact);
