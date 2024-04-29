@@ -106,13 +106,47 @@
         </header>
         <table class="center collapse">
             <tr>
-                <th>ID</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Email Address</th>
-                <th>Contact Number</th>
+                <!-- It would certainly be better to make the arrows change direction whenever they are pressed, alongside changing their function. -->
+                <th>ID <a style="text-decoration: none;" href="index.php?sort=id&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=id&direction=desc">⬇️</a></th>
+                <th>Last Name <a style="text-decoration: none;" href="index.php?sort=lastname&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=lastname&direction=desc">⬇️</a></th>
+                <th>First Name <a style="text-decoration: none;" href="index.php?sort=firstname&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=firstname&direction=desc">⬇️</a></th>
+                <th>Email Address <a style="text-decoration: none;" href="index.php?sort=email&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=email&direction=desc">⬇️</a></th>
+                <th>Contact Number <a style="text-decoration: none;" href="index.php?sort=contact&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=contact&direction=desc">⬇️</a></th>
             </tr>
-            <!-- Need to figure out how to display the contents of the database -->
+            <!-- Interesting thought is to add pagination, but that was not the initial plan. Still it would be useful to try experimenting with another application someday. -->
+            <?php
+                // Connect to the database
+                $conn = new mysqli('localhost', 'root', '', 'test');
+
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                // SQL query to select all records from the table
+                $sql = "SELECT id, firstname, lastname, email, contact FROM contact_list";
+
+                // Check if sort query parameter is set
+                if (isset($_GET['sort'])) {
+                    $sql .= " ORDER BY " . $_GET['sort'];
+
+                    if (isset($_GET['direction']) && $_GET['direction'] == 'desc') {
+                        $sql .= " DESC";
+                    } else {
+                        $sql .= " ASC";
+                    }
+                }
+
+                $result = $conn->query($sql);
+
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while($row = $result->fetch_assoc()) {
+                        echo "<tr><td>" . $row["id"]. "</td><td>" . $row["lastname"]. "</td><td>" . $row["firstname"]. "</td><td>" . $row["email"]. "</td><td>" . $row["contact"]. "</td></tr>";
+                    }
+                }
+                $conn->close();
+            ?>
         </table>
     </body>
 </html>
