@@ -1,3 +1,5 @@
+// Something is seriously wrong with the names functions
+
 function reveal() {
     document.getElementById('addContact').classList.remove("hidden");
     document.getElementById('cancel').classList.remove("hidden");
