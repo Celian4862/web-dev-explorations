@@ -32,20 +32,30 @@ function validateName() {
     var firstNameError = document.getElementById('firstNameError');
     var lastNameError = document.getElementById('lastNameError');
     var namePattern = /^[a-zA-Z ]+$/;
+    var spaces = /^\s*$/;
 
     if (firstName.length == 0 && lastName.length == 0) {
         firstNameError.textContent = "Both names cannot be empty at the same time.";
         lastNameError.textContent = "Both names cannot be empty at the same time.";
     } else {
-        if (firstName.length > 0 && !namePattern.test(firstName)) {
-            firstNameError.textContent = "Name must only contain letters.";
+        if (firstName.length > 0) {
+            if (spaces.test(firstName)) {
+                firstNameError.textContent = "Name cannot be only spaces.";
+            } else if (!namePattern.test(firstName)) {
+                firstNameError.textContent = "Name cannot contain numbers or special characters.";
+            }
         } else if (firstName.length > 30) {
             firstNameError.textContent = "Name must be within 30 characters long.";
         } else {
             firstNameError.textContent = "";
         }
-        if (lastName.length > 0 && !namePattern.test(lastName)) {
-            lastNameError.textContent = "Name must only contain letters.";
+
+        if (lastName.length > 0) {
+            if (spaces.test(lastName)) {
+                lastNameError.textContent = "Name cannot be only spaces.";
+            } else if (!namePattern.test(lastName)) {
+                lastNameError.textContent = "Name cannot contain numbers or special characters.";
+            }
         } else if (lastName.length > 30) {
             lastNameError.textContent = "Name must be within 30 characters long.";
         } else {
@@ -70,10 +80,11 @@ function validateEmail() {
 
 function validateContact() {
     var contact = document.getElementById('contact').value;
+    var contactPattern = /^[0-9]+$/;
     var contactError = document.getElementById('contactError');
 
-    if (isNaN(contact)) {
-        contactError.textContent = "Contact number must only contain numbers.";
+    if (!contactPattern.test(contact)) {
+        contactError.textContent = "Contact number must contain only numbers.";
     } else if (contact.length > 0 && contact.length != 11) {
         contactError.textContent = "Contact number must be 11 digits long.";
     } else {
@@ -85,17 +96,18 @@ function validateForm() {
     var id = document.getElementById('identity').value, idPattern = /^[0-9]+$/, idError = document.getElementById('idError');
     var firstName = document.getElementById('firstName').value, firstNameError = document.getElementById('firstNameError');
     var lastName = document.getElementById('lastName').value, lastNameError = document.getElementById('lastNameError');
+    var spaces = /^\s*$/;
     var namePattern = /^[a-zA-Z ]+$/;
     var email = document.getElementById('email').value;
     var emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z.]+\.[a-zA-Z]{2,6}$/;
-    var contact = document.getElementById('contact').value, contactError = document.getElementById('contactError');
+    var contact = document.getElementById('contact').value, contactPattern = /^[0-9]+$/, contactError = document.getElementById('contactError');
     var valid = true;
 
     // Validates ID
     if (id.length == 0) {
         idError.textContent = "ID cannot be empty.";
         valid = false;
-    } else if (!idPattern.test(id) || isNaN(id)) {
+    } else if (!idPattern.test(id)) {
         idError.textContent = "ID must be a number";
         valid = false;
     } else if (id.length != 8) {
@@ -111,18 +123,29 @@ function validateForm() {
         lastNameError.textContent = "Both names cannot be empty at the same time.";
         valid = false;
     } else {
-        if (firstName.length > 0 && !namePattern.test(firstName)) {
-            firstNameError.textContent = "Name must only contain letters.";
-            valid = false;
+        if (firstName.length > 0) {
+            if (spaces.test(firstName)) {
+                firstNameError.textContent = "Name cannot be only spaces.";
+                valid = false;
+            } else if (!namePattern.test(firstName)) {
+                firstNameError.textContent = "Name cannot contain numbers or special characters.";
+                valid = false;
+            }
         } else if (firstName.length > 30) {
             firstNameError.textContent = "Name must be within 30 characters long.";
             valid = false;
         } else {
             firstNameError.textContent = "";
         }
-        if (lastName.length > 0 && !namePattern.test(lastName)) {
-            lastNameError.textContent = "Name must only contain letters.";
-            valid = false;
+
+        if (lastName.length > 0) {
+            if (spaces.test(lastName)) {
+                lastNameError.textContent = "Name cannot be only spaces.";
+                valid = false;
+            } else if (!namePattern.test(lastName)) {
+                lastNameError.textContent = "Name cannot contain numbers or special characters.";
+                valid = false;
+            }
         } else if (lastName.length > 30) {
             lastNameError.textContent = "Name must be within 30 characters long.";
             valid = false;
@@ -143,8 +166,8 @@ function validateForm() {
     }
 
     // Validates contact
-    if (isNaN(contact)) {
-        contactError.textContent = "Contact number must only contain numbers.";
+    if (!contactPattern.test(contact) || isNaN(contact)) {
+        contactError.textContent = "Contact number must contain only numbers.";
         valid = false;
     } else if (contact.length > 0 && contact.length != 11) {
         contactError.textContent = "Contact number must be 11 digits long.";
