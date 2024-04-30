@@ -107,14 +107,64 @@
         <table class="center collapse">
             <tr>
                 <!-- It would certainly be better to make the arrows change direction whenever they are pressed, alongside changing their function. -->
-                <th>ID <a style="text-decoration: none;" href="index.php?sort=id&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=id&direction=desc">⬇️</a></th>
-                <th>Last Name <a style="text-decoration: none;" href="index.php?sort=lastname&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=lastname&direction=desc">⬇️</a></th>
-                <th>First Name <a style="text-decoration: none;" href="index.php?sort=firstname&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=firstname&direction=desc">⬇️</a></th>
-                <th>Email Address <a style="text-decoration: none;" href="index.php?sort=email&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=email&direction=desc">⬇️</a></th>
-                <th>Contact Number <a style="text-decoration: none;" href="index.php?sort=contact&direction=asc">⬆️</a> <a style="text-decoration: none;" href="index.php?sort=contact&direction=desc">⬇️</a></th>
+                <th>ID <a id="id_asc" class="no-underline" href="index.php?sort=id&direction=asc">⬆️</a>
+                    <a id="id_des" class="no-underline" href="index.php?sort=id&direction=desc">⬇️</a></th>
+                <th>Last Name <a id="lastName_asc" class="no-underline" href="index.php?sort=lastname&direction=asc" >⬆️</a>
+                    <a id="lastName_des" class="no-underline" href="index.php?sort=lastname&direction=desc" >⬇️</a></th>
+                <th>First Name <a id="firstName_asc" class="no-underline" href="index.php?sort=firstname&direction=asc">⬆️</a>
+                    <a id="firstName_des" class="no-underline" href="index.php?sort=firstname&direction=desc">⬇️</a></th>
+                <th>Email Address <a id="email_asc" class="no-underline" href="index.php?sort=email&direction=asc">⬆️</a>
+                    <a id="email_des" class="no-underline" href="index.php?sort=email&direction=desc">⬇️</a></th>
+                <th>Contact Number <a class="no-underline" href="index.php?sort=contact&direction=asc">⬆️</a>
+                    <a class="no-underline" href="index.php?sort=contact&direction=desc">⬇️</a></th>
             </tr>
-            <!-- Interesting thought is to add pagination, but that was not the initial plan. Still it would be useful to try experimenting with another application someday. -->
+            <!-- Interesting thought is to add pagination, but that was not the initial plan. Still, it would be useful to try experimenting with another application someday. -->
             <?php
+                /*
+                // Connect to the database
+                $conn = new mysqli('localhost', 'root', '', 'test');
+
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                // Define the number of results per page
+                $results_per_page = 10;
+
+                // Find out the number of results stored in database
+                $sql='SELECT * FROM contact_list';
+                $result = $conn->query($sql);
+                $number_of_results = $result->num_rows;
+
+                // Determine the total number of pages available
+                $number_of_pages = ceil($number_of_results/$results_per_page);
+
+                // Determine which page number visitor is currently on
+                if (!isset($_GET['page'])) {
+                    $page = 1;
+                } else {
+                    $page = $_GET['page'];
+                }
+
+                // Determine the sql LIMIT starting number for the results on the displaying page
+                $this_page_first_result = ($page-1)*$results_per_page;
+
+                // Retrieve selected results from database and display them on page
+                $sql='SELECT * FROM contact_list LIMIT ' . $this_page_first_result . ',' .  $results_per_page;
+                $result = $conn->query($sql);
+
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr><td>" . $row["id"]. "</td><td>" . $row["lastname"]. "</td><td>" . $row["firstname"]. "</td><td>" . $row["email"]. "</td><td>" . $row["contact"]. "</td></tr>";
+                }
+
+                // Display the links to the pages
+                for ($page=1;$page<=$number_of_pages;$page++) {
+                    echo '<a href="index.php?page=' . $page . '">' . $page . '</a> ';
+                }
+
+                $conn->close();
+                */
                 // Connect to the database
                 $conn = new mysqli('localhost', 'root', '', 'test');
 
@@ -142,7 +192,8 @@
                 if ($result->num_rows > 0) {
                     // Output data of each row
                     while($row = $result->fetch_assoc()) {
-                        echo "<tr><td>" . $row["id"]. "</td><td>" . $row["lastname"]. "</td><td>" . $row["firstname"]. "</td><td>" . $row["email"]. "</td><td>" . $row["contact"]. "</td></tr>";
+                        $padded_id = str_pad($row['id'], 8, '0', STR_PAD_LEFT); // Pad the ID with leading zeroes
+                        echo "<tr><td>" . $padded_id . "</td><td>" . $row["lastname"]. "</td><td>" . $row["firstname"]. "</td><td>" . $row["email"]. "</td><td>" . $row["contact"]. "</td></tr>";
                     }
                 }
                 $conn->close();

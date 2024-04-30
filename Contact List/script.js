@@ -12,8 +12,8 @@ function hide() {
 }
 
 function validateId() {
-    var id = document.getElementById('identity').value, idPattern = /^\d*$/;
-    var idError = document.getElementById('idError');
+    let id = document.getElementById('identity').value, idPattern = /^\d*$/;
+    let idError = document.getElementById('idError');
 
     if (id.length == 0) {
         idError.textContent = "ID cannot be empty.";
@@ -22,7 +22,7 @@ function validateId() {
     } else if (id.length != 8) {
         idError.textContent = "ID must be 8 digits long.";
     } else {
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open('GET', 'check_id.php?id=' + id, true);
         xhr.timeout = 5000;
         xhr.ontimeout = function() {
@@ -40,12 +40,12 @@ function validateId() {
 }
 
 function validateName() {
-    var firstName = document.getElementById('firstName').value;
-    var lastName = document.getElementById('lastName').value;
-    var firstNameError = document.getElementById('firstNameError');
-    var lastNameError = document.getElementById('lastNameError');
-    var namePattern = /^[a-zA-Z ]+$/;
-    var spaces = /^\s*$/;
+    let firstName = document.getElementById('firstName').value;
+    let lastName = document.getElementById('lastName').value;
+    let firstNameError = document.getElementById('firstNameError');
+    let lastNameError = document.getElementById('lastNameError');
+    let namePattern = /^[a-zA-Z ]+$/;
+    let spaces = /^\s*$/;
 
     if (firstName.length == 0 && lastName.length == 0) {
         firstNameError.textContent = "Both names cannot be empty at the same time.";
@@ -81,10 +81,10 @@ function validateName() {
 }
 
 function validateEmail() {
-    var email = document.getElementById('email').value;
-    var emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z.]+\.[a-zA-Z]{2,6}$/;
-    var spaces = /^\s*$/;
-    var emailError = document.getElementById('emailError');
+    let email = document.getElementById('email').value;
+    let emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z.]+\.[a-zA-Z]{2,6}$/;
+    let spaces = /^\s*$/;
+    let emailError = document.getElementById('emailError');
 
     if (email.length > 50) {
         emailError.textContent = "Email must be within 50 characters.";
@@ -102,9 +102,9 @@ function validateEmail() {
 }
 
 function validateContact() {
-    var contact = document.getElementById('contact').value;
-    var contactPattern = /^\d*$/;
-    var contactError = document.getElementById('contactError');
+    let contact = document.getElementById('contact').value;
+    let contactPattern = /^\d*$/;
+    let contactError = document.getElementById('contactError');
 
     if (!contactPattern.test(contact)) {
         contactError.textContent = "Contact number must contain only numbers.";
@@ -116,15 +116,15 @@ function validateContact() {
 }
 
 function validateForm() {
-    var id = document.getElementById('identity').value, idPattern = /^\d+$/, idError = document.getElementById('idError');
-    var firstName = document.getElementById('firstName').value, firstNameError = document.getElementById('firstNameError');
-    var lastName = document.getElementById('lastName').value, lastNameError = document.getElementById('lastNameError');
-    var spaces = /^\s*$/;
-    var namePattern = /^[a-zA-Z ]+$/;
-    var email = document.getElementById('email').value;
-    var emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z.]+\.[a-zA-Z]{2,6}$/;
-    var contact = document.getElementById('contact').value, contactPattern = /^\d*$/, contactError = document.getElementById('contactError');
-    var valid = true;
+    let id = document.getElementById('identity').value, idPattern = /^\d+$/, idError = document.getElementById('idError');
+    let firstName = document.getElementById('firstName').value, firstNameError = document.getElementById('firstNameError');
+    let lastName = document.getElementById('lastName').value, lastNameError = document.getElementById('lastNameError');
+    let spaces = /^\s*$/;
+    let namePattern = /^[a-zA-Z ]+$/;
+    let email = document.getElementById('email').value;
+    let emailPattern = /^[a-zA-Z0-9.]+@[a-zA-Z.]+\.[a-zA-Z]{2,6}$/;
+    let contact = document.getElementById('contact').value, contactPattern = /^\d*$/, contactError = document.getElementById('contactError');
+    let valid = true;
 
     // Validates ID
     if (id.length == 0) {

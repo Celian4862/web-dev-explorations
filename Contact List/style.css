@@ -45,6 +45,10 @@ th, td {
     display: none;
 }
 
+.no-underline {
+    text-decoration: none;
+}
+
 .sticky {
     position: sticky;
     top: 0;
