@@ -30,10 +30,10 @@
             ";
             $sql = "CREATE TABLE IF NOT EXISTS contact_list (
                 id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                firstname VARCHAR(30),
-                lastname VARCHAR(30),
-                email VARCHAR(50),
-                contact VARCHAR(11)
+                firstname VARCHAR(30) NOT NULL,
+                lastname VARCHAR(30) NOT NULL,
+                email VARCHAR(50) NOT NULL,
+                contact VARCHAR(11) NOT NULL
                 -- reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )";
             if (mysqli_query($conn, $sql)) {
@@ -41,68 +41,85 @@
             } else {
                 echo "<script>console.log(\"Error creating table: \\n\");</script>" . mysqli_error($conn);
             }
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $id = test_input($_POST["identity"]);
-                $firstName = test_input($_POST["firstName"]);
-                $lastName = test_input($_POST["lastName"]);
-                $email = test_input($_POST["email"]);
-                $contact = test_input($_POST["contact"]);
-
-                $firstName = empty($firstName) ? NULL : $firstName;
-                $lastName = empty($lastName) ? NULL : $lastName;
-                $email = empty($email) ? NULL : $email;
-                $contact = empty($contact) ? NULL : $contact;
-
-                $stmt = $conn->prepare("INSERT INTO contact_list (id, firstname, lastname, email, contact) VALUES (?, ?, ?, ?, ?)");
-                $stmt->bind_param("issss", $id, $firstName, $lastName, $email, $contact);
-                if ($stmt->execute()) {
-                    echo "<script>console.log(\"New record created successfully\\n\");</script>";
-                } else {
-                    error_log("Error: " . $stmt->error);
-                    echo "<script>console.log(\"An error occurred. Please try again later.\");</script>";
-                }
-                mysqli_close($conn);
-                $_POST["firstName"] = $_POST["lastName"] = $_POST["email"] = $_POST["contact"] = "";
-                header("Location: index.php");
-                exit;
-            }
         ?>
         <h1 style="text-align: center;">Contact List</h1>
         <header class='sticky'>
-            <button class="block center" id="addButton" onclick="reveal()">Add a contact</button>
-            <button class="block center hidden" id="cancel" type="button" onclick="event.preventDefault(); hide();">Cancel</button>
+            <div class="border flex-container spaced">
+                <button class="center" id="addButton" onclick="reveal()">Add a contact</button>
+                <button class="center hidden" id="cancel" type="button" onclick="event.preventDefault(); hide();">Cancel</button>
 
-            <form class="border hidden" id="addContact" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" onsubmit="return validateForm()">
-                <p style="color: red;">**Required field</p>
-                <p style="color: orange;">*At least one must be filled</p>
+                <div>
+                    <input type="text" id="search" name="search" placeholder="Search for a contact" oninput="search()">
+                    <button id="clear" onclick="clearSearch()">Clear</button>
+                </div>
+            </div>
 
-                <span style="color: red;">**</span><label for="identity">ID:</label>
-                <input type="text" id="identity" name="identity" oninput="validateId()">&nbsp;
-                <span style="color: red;" id="idError"></span>
-                <br />
+            <div class="flex-container">
+                <form class="border center hidden" id="addContact" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" onsubmit="return validateForm()">
+                    <div>
+                        <label for="identity">ID:</label>
+                        <input type="text" id="identity" name="identity" oninput="validateId()" required><br />
+                        <span class="error-message" id="idError"></span>
+                        <br />
+                    </div>
 
-                <span style="color: orange;">*</span><label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" oninput="validateName()">&nbsp;
-                <span style="color: orange;" id="firstNameError"></span>
-                <br />
+                    <div>
+                        <label for="firstName">First Name:</label>
+                        <input type="text" id="firstName" name="firstName" oninput="validateName()" required><br />
+                        <span class="error-message" id="firstNameError"></span>
+                        <br />
+                    </div>
 
-                <span style="color: orange;">*</span><label for="lastName">Last Name:</label>
-                <input type="test" id="lastName" name="lastName" oninput="validateName()">&nbsp;
-                <span style="color: orange;" id="lastNameError"></span>
-                <br />
+                    <div>
+                        <label for="lastName">Last Name:</label>
+                        <input type="test" id="lastName" name="lastName" oninput="validateName()" required><br />
+                        <span class="error-message" id="lastNameError"></span>
+                        <br />
+                    </div>
 
-                <label for="email">Email Address:</label>
-                <input type="email" id="email" name="email" oninput="validateEmail()">&nbsp;
-                <span style= "color: yellow;" id="emailError"></span>
-                <br />
+                    <div>
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" oninput="validateEmail()" required><br />
+                        <span class="error-message" id="emailError"></span>
+                        <br />
+                    </div>
 
-                <label for="contact">Contact Number:</label>
-                <input type="tel" id="contact" name="contact" oninput="validateContact()">&nbsp;<span style="color: yellow;" id="contactError"></span>&nbsp;
-                <span style="color: yellow;" id="contactError"></span>
-                <br />
+                    <div>
+                        <label for="contact">Contact Number:</label>
+                        <input type="tel" id="contact" name="contact" oninput="validateContact()"><br />
+                        <span class="error-message" id="contactError"></span>
+                        <br />
+                    </div>
 
-                <input type="submit" value="Submit">
-            </form>
+                    <input type="submit" value="Submit">
+                    <?php
+                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                            $id = test_input($_POST["identity"]);
+                            $firstName = test_input($_POST["firstName"]);
+                            $lastName = test_input($_POST["lastName"]);
+                            $email = test_input($_POST["email"]);
+                            $contact = test_input($_POST["contact"]);
+                        
+                            $firstName = empty($firstName) ? NULL : $firstName;
+                            $lastName = empty($lastName) ? NULL : $lastName;
+                            $email = empty($email) ? NULL : $email;
+                            $contact = empty($contact) ? NULL : $contact;
+                        
+                            $stmt = $conn->prepare("INSERT INTO contact_list (id, firstname, lastname, email, contact) VALUES (?, ?, ?, ?, ?)");
+                            $stmt->bind_param("issss", $id, $firstName, $lastName, $email, $contact);
+                            if ($stmt->execute()) {
+                                echo "<script>console.log(\"New record created successfully\\n\");</script>";
+                            } else {
+                                error_log("Error: " . $stmt->error);
+                                echo "<script>console.log(\"An error occurred. Please try again later.\");</script>";
+                            }
+                            mysqli_close($conn);
+                            $_POST["firstName"] = $_POST["lastName"] = $_POST["email"] = $_POST["contact"] = "";
+                            header("Location: index.php");
+                        }
+                    ?>
+                </form>
+            </div>
         </header>
         <table class="center collapse">
             <tr>
@@ -190,10 +207,23 @@
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
-                    // Output data of each row
-                    while($row = $result->fetch_assoc()) {
-                        $padded_id = str_pad($row['id'], 8, '0', STR_PAD_LEFT); // Pad the ID with leading zeroes
-                        echo "<tr><td>" . $padded_id . "</td><td>" . $row["lastname"]. "</td><td>" . $row["firstname"]. "</td><td>" . $row["email"]. "</td><td>" . $row["contact"]. "</td></tr>";
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $padded_id = str_pad($row['id'], 8, '0', STR_PAD_LEFT); 
+                        echo "<tr>";
+                        echo "<td>" . $padded_id . "</td>";
+                        echo "<td>" . $row['lastname'] . "</td>";
+                        echo "<td>" . $row['firstname'] . "</td>";
+                        echo "<td>" . $row['email'] . "</td>";
+                        echo "<td>" . $row['contact'] . "</td>";
+                        // Add a new cell with a delete button
+                        echo "<td>";
+                        echo "<form method='POST' action='delete.php'>";
+                        echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";
+                        echo "<input type='submit' value='Delete'>";
+                        echo "</form>";
+                        echo "</td>";
+                        echo "</tr>";
+                        // Need to add update functionality
                     }
                 }
                 $conn->close();

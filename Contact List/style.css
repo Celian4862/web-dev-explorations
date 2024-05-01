@@ -6,8 +6,8 @@ body {
 }
 
 form {
-    margin: 0 auto;
-    width: 30%;
+    margin: 2%;
+    text-align: center;
 }
 
 header {
@@ -29,6 +29,8 @@ th, td {
     display: block;
 }
 
+/* For testing purposes */
+
 .border {
     border: 2px dotted purple;
 }
@@ -41,12 +43,24 @@ th, td {
     border-collapse: collapse;
 }
 
+.error-message {
+    color: red;
+}
+
+.flex-container {
+    display: flex;
+}
+
 .hidden {
     display: none;
 }
 
 .no-underline {
     text-decoration: none;
+}
+
+.spaced {
+    align-items: space-between;
 }
 
 .sticky {

@@ -11,12 +11,35 @@ function hide() {
     document.getElementById("addContact").reset();
 }
 
+function search() {
+    let search = document.getElementById('search').value;
+    let searchPattern = /^[a-zA-Z0-9 ]+$/;
+    let searchError = document.getElementById('searchError');
+
+    if (search.length > 30) {
+        searchError.textContent = "Search must be within 30 characters long.";
+    } else if (search.length > 0) {
+        if (!searchPattern.test(search)) {
+            searchError.textContent = "Search cannot contain special characters.";
+        } else {
+            searchError.textContent = "";
+        }
+    } else {
+        searchError.textContent = "";
+    }
+}
+
+function clearSearch() {
+    document.getElementById('search').value = '';
+    document.getElementById('searchError').textContent = '';
+}
+
 function validateId() {
     let id = document.getElementById('identity').value, idPattern = /^\d*$/;
     let idError = document.getElementById('idError');
 
     if (id.length == 0) {
-        idError.textContent = "ID cannot be empty.";
+        idError.textContent = "";
     } else if (!idPattern.test(id)) {
         idError.textContent = "ID must be a number.";
     } else if (id.length != 8) {
@@ -47,36 +70,31 @@ function validateName() {
     let namePattern = /^[a-zA-Z ]+$/;
     let spaces = /^\s*$/;
 
-    if (firstName.length == 0 && lastName.length == 0) {
-        firstNameError.textContent = "Both names cannot be empty at the same time.";
-        lastNameError.textContent = "Both names cannot be empty at the same time.";
-    } else {
-        if (firstName.length > 30) {
-            firstNameError.textContent = "Name must be within 30 characters long.";
-        } else if (firstName.length > 0) {
-            if (spaces.test(firstName)) {
-                firstNameError.textContent = "Name cannot be only spaces.";
-            } else if (!namePattern.test(firstName)) {
-                firstNameError.textContent = "Name cannot contain numbers or special characters.";
-            } else {
-                firstNameError.textContent = "";
-            }
+    if (firstName.length > 30) {
+        firstNameError.textContent = "Name must be within 30 characters long.";
+    } else if (firstName.length > 0) {
+        if (spaces.test(firstName)) {
+            firstNameError.textContent = "Name cannot be only spaces.";
+        } else if (!namePattern.test(firstName)) {
+            firstNameError.textContent = "Name cannot contain numbers or special characters.";
         } else {
             firstNameError.textContent = "";
         }
-        if (lastName.length > 30) {
-            lastNameError.textContent = "Name must be within 30 characters long.";
-        } else if (lastName.length > 0) {
-            if (spaces.test(lastName)) {
-                lastNameError.textContent = "Name cannot be only spaces.";
-            } else if (!namePattern.test(lastName)) {
-                lastNameError.textContent = "Name cannot contain numbers or special characters.";
-            } else {
-                lastNameError.textContent = "";
-            }
+    } else {
+        firstNameError.textContent = "";
+    }
+    if (lastName.length > 30) {
+        lastNameError.textContent = "Name must be within 30 characters long.";
+    } else if (lastName.length > 0) {
+        if (spaces.test(lastName)) {
+            lastNameError.textContent = "Name cannot be only spaces.";
+        } else if (!namePattern.test(lastName)) {
+            lastNameError.textContent = "Name cannot contain numbers or special characters.";
         } else {
             lastNameError.textContent = "";
         }
+    } else {
+        lastNameError.textContent = "";
     }
 }
 
@@ -128,7 +146,7 @@ function validateForm() {
 
     // Validates ID
     if (id.length == 0) {
-        idError.textContent = "ID cannot be empty.";
+        idError.textContent = "";
         valid = false;
     } else if (!idPattern.test(id)) {
         idError.textContent = "ID must be a number.";
@@ -145,44 +163,38 @@ function validateForm() {
     }
 
     // Validates names
-    if (firstName.length == 0 && lastName.length == 0) {
-        firstNameError.textContent = "Both names cannot be empty at the same time.";
-        lastNameError.textContent = "Both names cannot be empty at the same time.";
+    if (firstName.length > 30) {
+        firstNameError.textContent = "Name must be within 30 characters long.";
         valid = false;
-    } else {
-        if (firstName.length > 30) {
-            firstNameError.textContent = "Name must be within 30 characters long.";
+    } else if (firstName.length > 0) {
+        if (spaces.test(firstName)) {
+            firstNameError.textContent = "Name cannot be only spaces.";
             valid = false;
-        } else if (firstName.length > 0) {
-            if (spaces.test(firstName)) {
-                firstNameError.textContent = "Name cannot be only spaces.";
-                valid = false;
-            } else if (!namePattern.test(firstName)) {
-                firstNameError.textContent = "Name cannot contain numbers or special characters.";
-                valid = false;
-            } else {
-                firstNameError.textContent = "";
-            }
+        } else if (!namePattern.test(firstName)) {
+            firstNameError.textContent = "Name cannot contain numbers or special characters.";
+            valid = false;
         } else {
             firstNameError.textContent = "";
         }
+    } else {
+        firstNameError.textContent = "";
+    }
 
-        if (lastName.length > 30) {
-            lastNameError.textContent = "Name must be within 30 characters long.";
+    if (lastName.length > 30) {
+        lastNameError.textContent = "Name must be within 30 characters long.";
+        valid = false;
+    } else if (lastName.length > 0) {
+        if (spaces.test(lastName)) {
+            lastNameError.textContent = "Name cannot be only spaces.";
             valid = false;
-        } else if (lastName.length > 0) {
-            if (spaces.test(lastName)) {
-                lastNameError.textContent = "Name cannot be only spaces.";
-                valid = false;
-            } else if (!namePattern.test(lastName)) {
-                lastNameError.textContent = "Name cannot contain numbers or special characters.";
-                valid = false;
-            } else {
-                lastNameError.textContent = "";
-            }
+        } else if (!namePattern.test(lastName)) {
+            lastNameError.textContent = "Name cannot contain numbers or special characters.";
+            valid = false;
         } else {
             lastNameError.textContent = "";
         }
+    } else {
+        lastNameError.textContent = "";
     }
 
     // Validates email
