@@ -223,7 +223,13 @@
                         echo "</form>";
                         echo "</td>";
                         echo "</tr>";
-                        // Need to add update functionality
+                        // Add a new cell with an update button
+                        echo "<td>";
+                        echo "<form method='POST' action='update.php'>";
+                        echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";
+                        echo "<input type='submit' value='Update'>";
+                        echo "</form>";
+                        echo "</td>";
                     }
                 }
                 $conn->close();
