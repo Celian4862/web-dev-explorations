@@ -11,24 +11,6 @@ function hide() {
     document.getElementById("addContact").reset();
 }
 
-function search() {
-    let search = document.getElementById('search').value;
-    let searchPattern = /^[a-zA-Z0-9 ]+$/;
-    let searchError = document.getElementById('searchError');
-
-    if (search.length > 30) {
-        searchError.textContent = "Search must be within 30 characters long.";
-    } else if (search.length > 0) {
-        if (!searchPattern.test(search)) {
-            searchError.textContent = "Search cannot contain special characters.";
-        } else {
-            searchError.textContent = "";
-        }
-    } else {
-        searchError.textContent = "";
-    }
-}
-
 function clearSearch() {
     document.getElementById('search').value = '';
     document.getElementById('searchError').textContent = '';

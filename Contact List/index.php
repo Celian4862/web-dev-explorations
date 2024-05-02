@@ -44,18 +44,13 @@
         ?>
         <h1 style="text-align: center;">Contact List</h1>
         <header class='sticky'>
-            <div class="border flex-container spaced">
-                <button class="center" id="addButton" onclick="reveal()">Add a contact</button>
-                <button class="center hidden" id="cancel" type="button" onclick="event.preventDefault(); hide();">Cancel</button>
-
-                <div>
-                    <input type="text" id="search" name="search" placeholder="Search for a contact" oninput="search()">
-                    <button id="clear" onclick="clearSearch()">Clear</button>
-                </div>
+            <div class="center">
+                <button class="block center" id="addButton" onclick="reveal()">Add a contact</button>
+                <button class="block center hidden" id="cancel" type="button" onclick="event.preventDefault(); hide();">Cancel</button>
             </div>
 
-            <div class="flex-container">
-                <form class="border center hidden" id="addContact" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" onsubmit="return validateForm()">
+            <div id="addContact" class="flex-container hidden" style="padding: 3%;">
+                <form class="center" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" onsubmit="return validateForm()">
                     <div>
                         <label for="identity">ID:</label>
                         <input type="text" id="identity" name="identity" oninput="validateId()" required><br />
@@ -92,32 +87,7 @@
                     </div>
 
                     <input type="submit" value="Submit">
-                    <?php
-                        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                            $id = test_input($_POST["identity"]);
-                            $firstName = test_input($_POST["firstName"]);
-                            $lastName = test_input($_POST["lastName"]);
-                            $email = test_input($_POST["email"]);
-                            $contact = test_input($_POST["contact"]);
-                        
-                            $firstName = empty($firstName) ? NULL : $firstName;
-                            $lastName = empty($lastName) ? NULL : $lastName;
-                            $email = empty($email) ? NULL : $email;
-                            $contact = empty($contact) ? NULL : $contact;
-                        
-                            $stmt = $conn->prepare("INSERT INTO contact_list (id, firstname, lastname, email, contact) VALUES (?, ?, ?, ?, ?)");
-                            $stmt->bind_param("issss", $id, $firstName, $lastName, $email, $contact);
-                            if ($stmt->execute()) {
-                                echo "<script>console.log(\"New record created successfully\\n\");</script>";
-                            } else {
-                                error_log("Error: " . $stmt->error);
-                                echo "<script>console.log(\"An error occurred. Please try again later.\");</script>";
-                            }
-                            mysqli_close($conn);
-                            $_POST["firstName"] = $_POST["lastName"] = $_POST["email"] = $_POST["contact"] = "";
-                            header("Location: index.php");
-                        }
-                    ?>
+                    <?php require 'createRecord.php'; ?>
                 </form>
             </div>
         </header>
@@ -222,14 +192,15 @@
                         echo "<input type='submit' value='Delete'>";
                         echo "</form>";
                         echo "</td>";
-                        echo "</tr>";
                         // Add a new cell with an update button
+                        // This update button should stay on the same page
                         echo "<td>";
                         echo "<form method='POST' action='update.php'>";
                         echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";
                         echo "<input type='submit' value='Update'>";
                         echo "</form>";
                         echo "</td>";
+                        echo "</tr>";
                     }
                 }
                 $conn->close();

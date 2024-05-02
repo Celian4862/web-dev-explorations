@@ -7,7 +7,7 @@ body {
 
 form {
     margin: 2%;
-    text-align: center;
+    text-align: right;
 }
 
 header {
@@ -60,7 +60,7 @@ th, td {
 }
 
 .spaced {
-    align-items: space-between;
+    justify-content: space-around;
 }
 
 .sticky {
