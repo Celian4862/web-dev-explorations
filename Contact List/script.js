@@ -17,7 +17,7 @@ function clearSearch() {
 }
 
 function validateId() {
-    let id = document.getElementById('identity').value, idPattern = /^\d*$/;
+    let id = document.getElementById('id').value, idPattern = /^\d*$/;
     let idError = document.getElementById('idError');
 
     if (id.length == 0) {

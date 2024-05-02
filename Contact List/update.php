@@ -1,27 +1,63 @@
-<?php
-    // Connect to the database
-    $servername = 'localhost';
-    $username = 'root';
-    $password = '';
-    $dbname = 'test';
-    $conn = new mysqli($servername, $username, $password, $dbname);
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script defer src="script.js"></script>
+    </head>
+    <?php
+        // Connect to the database
+        $servername = 'localhost';
+        $username = 'root';
+        $password = '';
+        $dbname = 'test';
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Get the 'id' from the POST parameters
-    $id = $_POST['id'];
+        // Get the 'id' from the POST parameters
+        $id = $_POST['id'];
 
-    // Fetch the current data for this row
-    $sql = "SELECT * FROM contact_list WHERE id = $id";
-    $result = $conn->query($sql);
-    $row = mysqli_fetch_assoc($result);
+        // Fetch the current data for this row
+        $sql = "SELECT * FROM contact_list WHERE id = $id";
+        $result = $conn->query($sql);
+        $row = mysqli_fetch_assoc($result);
 
-    // Display the data in a form
-    echo "<form method='POST' action='save_update.php'>";
-    echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";
-    echo "<input type='text' name='lastname' value='" . $row['lastname'] . "'>";
-    echo "<input type='text' name='firstname' value='" . $row['firstname'] . "'>";
-    echo "<input type='text' name='email' value='" . $row['email'] . "'>";
-    echo "<input type='text' name='contact' value='" . $row['contact'] . "'>";
-    echo "<input type='submit' value='Save'>";
-    echo "</form>";
+        $id = $row['id']; // Needed later for validation
+    ?>
+    <body>
+        <h1>Update Record</h1>
+        <div class='flex-container' style='padding: 3%;'>
+            <form class='center' action='save_update.php' method='POST' onsubmit='return validateForm()'>
+                    <input type='hidden' id='id' name='id' value='<?php echo $row['id'] ?>'>
 
-    $conn->close();
+                <div>
+                    <label for='firstName'>First Name:</label>
+                    <input type='text' id='firstName' name='firstName' value='<?php echo $row['firstname'] ?>' oninput='validateName()' required><br />
+                    <span class='error-message' id='firstNameError'></span>
+                    <br />
+                </div>
+
+                <div>
+                    <label for='lastName'>Last Name:</label>
+                    <input type='test' id='lastName' name='lastName' value='<?php echo $row['lastname'] ?>' oninput='validateName()' required><br />
+                    <span class='error-message' id='lastNameError'></span>
+                    <br />
+                </div>
+
+                <div>
+                    <label for='email'>Email Address:</label>
+                    <input type='email' id='email' name='email' value='<?php echo $row['email'] ?>' oninput='validateEmail()' required><br />
+                    <span class='error-message' id='emailError'></span>
+                    <br />
+                </div>
+
+                <div>
+                    <label for='contact'>Contact Number:</label>
+                    <input type='tel' id='contact' name='contact' value='<?php echo $row['contact'] ?>' oninput='validateContact()' required><br />
+                    <span class='error-message' id='contactError'></span>
+                    <br />
+                </div>
+
+                <input type='submit' value='Submit'>
+            </form>
+        </div>
+    </body>
+</html>

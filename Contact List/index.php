@@ -1,109 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
     <head>
-        <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset='UTF-8' name='viewport' content='width=device-width, initial-scale=1'>
         <title>Contact List</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <script defer src="script.js"></script>
+        <link rel='stylesheet' type='text/css' href='style.css'>
+        <script defer src='script.js'></script>
     </head>
     <body>
-        <?php
-            function test_input($data) {
-                // Removes extra whitespace between words
-                $data = preg_replace('/\s+/', ' ', $data);
-                // Removes all whitespace at the beginning and end of a string
-                $data = trim($data);
-                // Removes all slashes
-                $data = stripslashes($data);
-                // Converts special characters into HTML code
-                $data = htmlspecialchars($data);
-                return $data;
-            }
-            $conn = mysqli_connect("localhost", "root", "", "test");
-            if (!$conn) {
-                die("Connection failed.<br />". mysqli_connect_error());
-            }
-            echo "
-                <script>
-                    console.log(\"Connected successfully.\\n\");
-                </script>
-            ";
-            $sql = "CREATE TABLE IF NOT EXISTS contact_list (
-                id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-                firstname VARCHAR(30) NOT NULL,
-                lastname VARCHAR(30) NOT NULL,
-                email VARCHAR(50) NOT NULL,
-                contact VARCHAR(11) NOT NULL
-                -- reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-            )";
-            if (mysqli_query($conn, $sql)) {
-                echo "<script>console.log(\"Table MyGuests created successfully\\n\");</script>";
-            } else {
-                echo "<script>console.log(\"Error creating table: \\n\");</script>" . mysqli_error($conn);
-            }
-        ?>
-        <h1 style="text-align: center;">Contact List</h1>
+        <?php require 'createTable.php'; ?>
+        <h1>Contact List</h1>
         <header class='sticky'>
-            <div class="center">
-                <button class="block center" id="addButton" onclick="reveal()">Add a contact</button>
-                <button class="block center hidden" id="cancel" type="button" onclick="event.preventDefault(); hide();">Cancel</button>
+            <div class='center'>
+                <button class='block center' id='addButton' onclick='reveal()'>Add a contact</button>
+                <button class='block center hidden' id='cancel' type='button' onclick='event.preventDefault(); hide();'>Cancel</button>
             </div>
 
-            <div id="addContact" class="flex-container hidden" style="padding: 3%;">
-                <form class="center" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST" onsubmit="return validateForm()">
+            <div id='addContact' class='flex-container hidden' style='padding: 3%;'>
+                <form class='center' action='<?php echo 'createRecord.php';?>' method='POST' onsubmit='return validateForm()'>
                     <div>
-                        <label for="identity">ID:</label>
-                        <input type="text" id="identity" name="identity" oninput="validateId()" required><br />
-                        <span class="error-message" id="idError"></span>
+                        <label for='id'>ID:</label>
+                        <input type='text' id='id' name='id' oninput='validateId()' required><br />
+                        <span class='error-message' id='idError'></span>
                         <br />
                     </div>
 
                     <div>
-                        <label for="firstName">First Name:</label>
-                        <input type="text" id="firstName" name="firstName" oninput="validateName()" required><br />
-                        <span class="error-message" id="firstNameError"></span>
+                        <label for='firstName'>First Name:</label>
+                        <input type='text' id='firstName' name='firstName' oninput='validateName()' required><br />
+                        <span class='error-message' id='firstNameError'></span>
                         <br />
                     </div>
 
                     <div>
-                        <label for="lastName">Last Name:</label>
-                        <input type="test" id="lastName" name="lastName" oninput="validateName()" required><br />
-                        <span class="error-message" id="lastNameError"></span>
+                        <label for='lastName'>Last Name:</label>
+                        <input type='test' id='lastName' name='lastName' oninput='validateName()' required><br />
+                        <span class='error-message' id='lastNameError'></span>
                         <br />
                     </div>
 
                     <div>
-                        <label for="email">Email Address:</label>
-                        <input type="email" id="email" name="email" oninput="validateEmail()" required><br />
-                        <span class="error-message" id="emailError"></span>
+                        <label for='email'>Email Address:</label>
+                        <input type='email' id='email' name='email' oninput='validateEmail()' required><br />
+                        <span class='error-message' id='emailError'></span>
                         <br />
                     </div>
 
                     <div>
-                        <label for="contact">Contact Number:</label>
-                        <input type="tel" id="contact" name="contact" oninput="validateContact()"><br />
-                        <span class="error-message" id="contactError"></span>
+                        <label for='contact'>Contact Number:</label>
+                        <input type='tel' id='contact' name='contact' oninput='validateContact()' required><br />
+                        <span class='error-message' id='contactError'></span>
                         <br />
                     </div>
 
-                    <input type="submit" value="Submit">
-                    <?php require 'createRecord.php'; ?>
+                    <input type='submit' value='Submit'>
                 </form>
             </div>
         </header>
-        <table class="center collapse">
+        <table class='center collapse'>
             <tr>
                 <!-- It would certainly be better to make the arrows change direction whenever they are pressed, alongside changing their function. -->
-                <th>ID <a id="id_asc" class="no-underline" href="index.php?sort=id&direction=asc">⬆️</a>
-                    <a id="id_des" class="no-underline" href="index.php?sort=id&direction=desc">⬇️</a></th>
-                <th>Last Name <a id="lastName_asc" class="no-underline" href="index.php?sort=lastname&direction=asc" >⬆️</a>
-                    <a id="lastName_des" class="no-underline" href="index.php?sort=lastname&direction=desc" >⬇️</a></th>
-                <th>First Name <a id="firstName_asc" class="no-underline" href="index.php?sort=firstname&direction=asc">⬆️</a>
-                    <a id="firstName_des" class="no-underline" href="index.php?sort=firstname&direction=desc">⬇️</a></th>
-                <th>Email Address <a id="email_asc" class="no-underline" href="index.php?sort=email&direction=asc">⬆️</a>
-                    <a id="email_des" class="no-underline" href="index.php?sort=email&direction=desc">⬇️</a></th>
-                <th>Contact Number <a class="no-underline" href="index.php?sort=contact&direction=asc">⬆️</a>
-                    <a class="no-underline" href="index.php?sort=contact&direction=desc">⬇️</a></th>
+                <th>ID <a id='id_asc' class='no-underline' href='index.php?sort=id&direction=asc'>⬆️</a>
+                    <a id='id_des' class='no-underline' href='index.php?sort=id&direction=desc'>⬇️</a></th>
+                <th>First Name <a id='firstName_asc' class='no-underline' href='index.php?sort=firstname&direction=asc'>⬆️</a>
+                    <a id='firstName_des' class='no-underline' href='index.php?sort=firstname&direction=desc'>⬇️</a></th>
+                <th>Last Name <a id='lastName_asc' class='no-underline' href='index.php?sort=lastname&direction=asc' >⬆️</a>
+                    <a id='lastName_des' class='no-underline' href='index.php?sort=lastname&direction=desc' >⬇️</a></th>
+                <th>Email Address <a id='email_asc' class='no-underline' href='index.php?sort=email&direction=asc'>⬆️</a>
+                    <a id='email_des' class='no-underline' href='index.php?sort=email&direction=desc'>⬇️</a></th>
+                <th>Contact Number <a class='no-underline' href='index.php?sort=contact&direction=asc'>⬆️</a>
+                    <a class='no-underline' href='index.php?sort=contact&direction=desc'>⬇️</a></th>
             </tr>
             <!-- Interesting thought is to add pagination, but that was not the initial plan. Still, it would be useful to try experimenting with another application someday. -->
             <?php
@@ -179,28 +144,27 @@
                 if ($result->num_rows > 0) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         $padded_id = str_pad($row['id'], 8, '0', STR_PAD_LEFT); 
-                        echo "<tr>";
-                        echo "<td>" . $padded_id . "</td>";
-                        echo "<td>" . $row['lastname'] . "</td>";
-                        echo "<td>" . $row['firstname'] . "</td>";
-                        echo "<td>" . $row['email'] . "</td>";
-                        echo "<td>" . $row['contact'] . "</td>";
-                        // Add a new cell with a delete button
-                        echo "<td>";
-                        echo "<form method='POST' action='delete.php'>";
-                        echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";
-                        echo "<input type='submit' value='Delete'>";
-                        echo "</form>";
-                        echo "</td>";
+                        echo "<tr>\n\t\t\t\t";
+                        echo "<td>" . $padded_id . "</td>\n\t\t\t\t";
+                        echo "<td>" . $row['firstname'] . "</td>\n\t\t\t\t";
+                        echo "<td>" . $row['lastname'] . "</td>\n\t\t\t\t";
+                        echo "<td>" . $row['email'] . "</td>\n\t\t\t\t";
+                        echo "<td>" . $row['contact'] . "</td>\n\t\t\t\t";
                         // Add a new cell with an update button
-                        // This update button should stay on the same page
-                        echo "<td>";
-                        echo "<form method='POST' action='update.php'>";
-                        echo "<input type='hidden' name='id' value='" . $row['id'] . "'>";
-                        echo "<input type='submit' value='Update'>";
-                        echo "</form>";
-                        echo "</td>";
-                        echo "</tr>";
+                        echo "<td>\n\t\t\t\t\t";
+                        echo "<form method='POST' action='update.php'>\n\t\t\t\t\t\t";
+                        echo "<input type='hidden' name='id' value='" . $row['id'] . "'>\n\t\t\t\t\t\t";
+                        echo "<input type='submit' value='Update'>\n\t\t\t\t\t";
+                        echo "</form>\n\t\t\t\t";
+                        echo "</td>\n\t\t\t\t";
+                        // Add a new cell with a delete button
+                        echo "<td>\n\t\t\t\t\t";
+                        echo "<form method='POST' action='delete.php'>\n\t\t\t\t\t\t";
+                        echo "<input type='hidden' name='id' value='" . $row['id'] . "'>\n\t\t\t\t\t\t";
+                        echo "<input type='submit' value='Delete'>\n\t\t\t\t\t";
+                        echo "</form>\n\t\t\t\t";
+                        echo "</td>\n\t\t\t";
+                        echo "</tr>\n\t\t\t";
                     }
                 }
                 $conn->close();

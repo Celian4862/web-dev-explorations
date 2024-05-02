@@ -1,8 +1,8 @@
 body {
-    padding: 0;
-    margin: 0;
+    padding: 3%;
     background-color: black;
     color: white;
+    zoom: 1.2;
 }
 
 form {
@@ -13,6 +13,10 @@ form {
 header {
     padding: 3%;
     background-color: black;
+}
+
+h1 {
+    text-align: center;
 }
 
 table, th, td {
