@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="style.css">
@@ -55,8 +55,10 @@
                     <span class='error-message' id='contactError'></span>
                     <br />
                 </div>
-
-                <input type='submit' value='Submit'>
+                <div class='flex-container spaced'>
+                    <input type='button' value='Cancel' onclick='window.location.href="index.php"'>
+                    <input type='submit' value='Submit'>
+                </div>
             </form>
         </div>
     </body>

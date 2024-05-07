@@ -52,7 +52,7 @@
                         <br />
                     </div>
 
-                    <input type='submit' value='Submit'>
+                    <input type='submit' value='Submit' class='block' style='margin: 2% auto;'>
                 </form>
             </div>
         </header>
