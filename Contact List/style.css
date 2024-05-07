@@ -1,58 +1,53 @@
 body {
-    padding: 3%;
-    background-color: black;
-    color: white;
-    zoom: 1.2;
+    background-color: #f0f0f0; /* Light grey background */
+    color: #333; /* Dark grey text color */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Use a modern sans-serif font */
 }
 
-form {
-    margin: 2%;
-    text-align: right;
+.container {
+    width: 70%; /* Make the container wider */
+    margin: 0 auto;
+    padding: 30px; /* Increase padding for more space */
+    background-color: #fff; /* White background for the container */
+    text-align: center;
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
 }
 
 header {
-    padding: 3%;
-    background-color: black;
+    padding: 20px; /* Increase padding for the header */
+    background-color: #333; /* Dark grey header background */
+    color: #fff; /* White header text color */
+    border-top-left-radius: 10px; /* Round the top-left corner */
+    border-top-right-radius: 10px; /* Round the top-right corner */
 }
 
 h1 {
-    text-align: center;
+    font-size: 32px; /* Increase font size for h1 */
+    margin-bottom: 20px; /* Add space below h1 */
 }
 
-table, th, td {
-    border: 2px solid white;
+table,
+th,
+td {
+    border: 1px solid #ccc; /* Light grey border for table */
 }
 
-th, td {
-    padding: 20px;
+th,
+td {
+    padding: 10px; /* Reduce padding for table cells */
 }
-
-/* Separating element names from classes. */
 
 .block {
     display: block;
-}
-
-/* For testing purposes */
-
-.border {
-    border: 2px dotted purple;
 }
 
 .center {
     margin: 0 auto;
 }
 
-.collapse {
-    border-collapse: collapse;
-}
-
 .error-message {
     color: red;
-}
-
-.flex-container {
-    display: flex;
 }
 
 .hidden {
@@ -70,4 +65,15 @@ th, td {
 .sticky {
     position: sticky;
     top: 0;
+}
+footer {
+    padding: 10px 0;
+    background-color: #333;
+    color: #fff;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: fixed;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
 }

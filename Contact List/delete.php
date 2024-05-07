@@ -2,27 +2,29 @@
     // Get the ID of the row to delete
     $id = $_POST['id'];
 
-    // Connect to the database
-    $mysqli = new mysqli('localhost', 'root', '', 'test');
+    // Establish a connection to the database
+    $db = new mysqli('localhost', 'root', '', 'test');
 
-    // Check the connection
-    if ($mysqli->connect_error) {
-        die("Connection failed: " . $mysqli->connect_error);
+    // Check if the connection was successful
+    if ($db->connect_error) {
+        die("Oops! Connection failed: " . $db->connect_error);
     }
 
-    // Prepare a delete statement
-    $stmt = $mysqli->prepare("DELETE FROM contact_list WHERE id = ?");
+    // Prepare a delete query
+    $query = "DELETE FROM contact_list WHERE id = ?";
 
-    // Bind the ID to the statement
-    $stmt->bind_param("i", $id);
+    // Bind the ID to the query
+    $statement = $db->prepare($query);
+    $statement->bind_param("i", $id);
 
-    // Execute the statement
-    $stmt->execute();
+    // Execute the query
+    $statement->execute();
 
-    // Close the statement and the connection
-    $stmt->close();
-    $mysqli->close();
+    // Close the statement and the database connection
+    $statement->close();
+    $db->close();
 
     // Redirect back to the index page
     header("Location: index.php");
     exit;
+?>
