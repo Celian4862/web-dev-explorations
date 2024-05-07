@@ -16,7 +16,7 @@
             </div>
 
             <div id='addContact' class='flex-container hidden' style='padding: 3%;'>
-                <form class='center' action='<?php echo 'createRecord.php';?>' method='POST' onsubmit='return validateForm()'>
+                <form class='center' action='<?php echo 'Record.php';?>' method='POST' onsubmit='return validateForm()'>
                     <div>
                         <label for='id'>ID:</label>
                         <input type='text' id='id' name='id' oninput='validateId()' required><br />
@@ -52,7 +52,7 @@
                         <br />
                     </div>
 
-                    <input type='submit' value='Submit' class='block' style='margin: 2% auto;'>
+                    <input type='submit' value='Submit'>
                 </form>
             </div>
         </header>
@@ -152,7 +152,7 @@
                         echo "<td>" . $row['contact'] . "</td>\n\t\t\t\t";
                         // Add a new cell with an update button
                         echo "<td>\n\t\t\t\t\t";
-                        echo "<form method='POST' action='update.php'>\n\t\t\t\t\t\t";
+                        echo "<form method='POST' action='ContactList.php'>\n\t\t\t\t\t\t";
                         echo "<input type='hidden' name='id' value='" . $row['id'] . "'>\n\t\t\t\t\t\t";
                         echo "<input type='submit' value='Update'>\n\t\t\t\t\t";
                         echo "</form>\n\t\t\t\t";
