@@ -17,7 +17,7 @@
 
     // Update the row in the database
     $stmt = $conn->prepare("UPDATE contact_list SET lastname=?, firstname=?, email=?, contact=? WHERE id=$id");
-    $stmt->bind_param("ssss", $firstName, $lastName, $email, $contact);
+    $stmt->bind_param("ssss", $lastName, $firstName, $email, $contact);
     if ($stmt->execute()) {
         echo "<script>console.log(\"Record updated successfully\\n\");</script>";
     } else {
